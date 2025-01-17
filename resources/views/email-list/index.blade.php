@@ -16,7 +16,7 @@
 
             <x-form :actions="route('email-list.index')" class="w-2/5">
 
-                <x-input-text name="search" :placeholder="__('Search')" :value="$search" />
+                <x-input.text name="search" :placeholder="__('Search')" :value="$search" />
             </x-form>
         </div>
         <x-table :headers="['#',__('Email List'),__('# Subscribers'),__('Actions')]">
