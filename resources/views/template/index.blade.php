@@ -27,23 +27,32 @@
             <x-slot name="body">
                 @foreach ($templates as $template)
                 <tr>
-                    <x-table.td>{{$template->id}}</x-table.td>
+                    <x-table.td class="w-1">{{$template->id}}</x-table.td>
                     <x-table.td>{{$template->name}}</x-table.td>
-                    <x-table.td class="flex items-center space-x-4">
+                    <x-table.td class="flex items-center space-x-4 w-1">
+
+                        @unless ($template->trashed())
+                        <x-button.link secondary :href="route('template.show', $template)">
+                            {{__('Preview')}}
+                        </x-button.link>
+                        @endunless
 
                         @unless ($template->trashed())
                         <x-button.link secondary :href="route('template.edit', $template)">
-                            Edit
+                            {{__('Edit')}}
                         </x-button.link>
                         @endunless
                         @unless ($template->trashed())
-                        <x-form :action="route('template.destroy', $template)" delete flat
-                            onsubmit=" return confirm('{{ __('Are you sure?') }}')">
+                        <div>
+                            <x-form :action="route('template.destroy', $template)" delete flat
+                                onsubmit=" return confirm('{{ __('Are you sure?') }}')">
 
-                            <x-button.secondary type="submit">
-                                Delete
-                            </x-button.secondary>
-                        </x-form>
+                                <x-button.secondary type="submit">
+                                    {{__('Delete')}}
+                                </x-button.secondary>
+                            </x-form>
+                        </div>
+
                         @else
                         <x-badge danger>
                             {{__('Deleted')}}

@@ -23,10 +23,10 @@
             <x-slot name="body">
                 @foreach ($emailLists as $list)
                 <tr>
-                    <x-table.td>{{$list->id}}</x-table.td>
+                    <x-table.td class=" w-1">{{$list->id}}</x-table.td>
                     <x-table.td>{{$list->title}}</x-table.td>
                     <x-table.td>{{$list->subscribers_count}}</x-table.td>
-                    <x-table.td>
+                    <x-table.td class="flex items-center space-x-4 w-1">
                         <x-button.link :href="route('subscribers.index', $list)">
                             Subscribers
                         </x-button.link>
