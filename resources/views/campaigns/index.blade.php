@@ -1,7 +1,7 @@
 <x-layouts.app>
     <x-slot name="header">
         <x-h2>
-            {{ __('Templates') }}
+            {{ __('Campaigns') }}
         </x-h2>
     </x-slot>
 
@@ -9,11 +9,11 @@
     <x-card class="space-y-4">
 
         <div class="flex justify-between">
-            <x-button.link :href="route('template.create')">
-                {{__('Create a new template')}}
+            <x-button.link :href="route('campaigns.create')">
+                {{__('Create a new campaign')}}
             </x-button.link>
 
-            <x-form :actions="route('template.index')" class="w-3/5 flex space-x-4 items-center" flat x-data
+            <x-form :actions="route('campaigns.index')" class="w-3/5 flex space-x-4 items-center" flat x-data
                 x-ref="form">
 
                 <x-input.checkbox value="1" name="withTrashed" label="{{ __('Show deleted records') }}"
@@ -25,26 +25,16 @@
 
         <x-table :headers="['#', __('Name'), __('Actions')]">
             <x-slot name="body">
-                @foreach ($templates as $template)
+                @foreach ($campaigns as $campaign)
                 <tr>
-                    <x-table.td class="w-1">{{$template->id}}</x-table.td>
-                    <x-table.td>{{$template->name}}</x-table.td>
+                    <x-table.td class="w-1">{{$campaign->id}}</x-table.td>
+                    <x-table.td>{{$campaign->name}}</x-table.td>
                     <x-table.td class="flex items-center space-x-4 w-1">
 
-                        @unless ($template->trashed())
-                        <x-button.link secondary :href="route('template.show', $template)">
-                            {{__('Preview')}}
-                        </x-button.link>
-                        @endunless
 
-                        @unless ($template->trashed())
-                        <x-button.link secondary :href="route('template.edit', $template)">
-                            {{__('Edit')}}
-                        </x-button.link>
-                        @endunless
-                        @unless ($template->trashed())
+                        @unless ($campaign->trashed())
                         <div>
-                            <x-form :action="route('template.destroy', $template)" delete flat
+                            <x-form :action="route('campaigns.destroy', $campaign)" delete flat
                                 onsubmit=" return confirm('{{ __('Are you sure?') }}')">
 
                                 <x-button.secondary type="submit">
@@ -67,7 +57,7 @@
                 @endforeach
             </x-slot>
         </x-table>
-        {{$templates->links()}}
+        {{$campaigns->links()}}
 
     </x-card>
 </x-layouts.app>

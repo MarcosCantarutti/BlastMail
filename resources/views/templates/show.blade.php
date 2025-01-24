@@ -12,7 +12,7 @@
             <div>
                 <span class="opacity-70">{{__('Name')}}</span> : {{$template->name}}
             </div>
-            <x-button.link secondary :href="route('template.index')">{{__('Back to list')}}</x-button.link>
+            <x-button.link secondary :href="route('templates.index')">{{__('Back to list')}}</x-button.link>
         </div>
 
         <div class="p-20 border-2 border-gray-400 rounded flex justify-center">
