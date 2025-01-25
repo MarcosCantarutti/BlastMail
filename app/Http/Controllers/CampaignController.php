@@ -23,7 +23,7 @@ class CampaignController extends Controller
                         ->orWhere('id', '=', $search)
                 )
                 ->paginate(5)
-                ->appends(compact('search')),
+                ->appends(compact('search'), 'withTrashed'),
             'search' => $search,
             'withTrashed' => $withTrashed,
         ]);
@@ -31,5 +31,15 @@ class CampaignController extends Controller
 
     public function create() {}
 
-    public function destroy() {}
+    public function destroy(Campaign $campaign)
+    {
+        $campaign->delete();
+        return back()->with('message', __('Campaign successfully deleted!'));
+    }
+
+    public function restore(Campaign $campaign)
+    {
+        $campaign->restore();
+        return back()->with('message', __('Campaign successfully restored!'));
+    }
 }

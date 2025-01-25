@@ -44,6 +44,17 @@
                         </div>
 
                         @else
+
+                        <div>
+                            <x-form :action="route('campaigns.restore', $campaign)" patch flat
+                                onsubmit=" return confirm('{{ __('Are you sure?') }}')">
+
+                                <x-button.secondary type="submit">
+                                    {{__('Restore')}}
+                                </x-button.secondary>
+                            </x-form>
+                        </div>
+
                         <x-badge danger>
                             {{__('Deleted')}}
                         </x-badge>
