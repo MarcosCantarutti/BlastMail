@@ -32,7 +32,7 @@ class CampaignController extends Controller
 
     public function create(?string $tab = null)
     {
-        session()->forget('campaigns::create');
+        // session()->forget('campaigns::create');
 
         return view('campaigns.create', [
             'tab' => $tab,

@@ -16,6 +16,8 @@ class EmailListController extends Controller
     public function index()
     {
         $search = request()->search;
+        $withTrashed = request()->get('withTrashed', false);
+
         $emailList = EmailList::query()
             ->withCount('subscribers')
             ->when(
@@ -25,7 +27,7 @@ class EmailListController extends Controller
                     ->orWhere('id', '=', $search)
             )
             ->paginate(5)
-            ->appends(compact('search'));
+            ->appends(compact('search', 'withTrashed'));
 
         return view('email-list.index', [
             'emailLists' =>  $emailList,
