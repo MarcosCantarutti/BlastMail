@@ -16,8 +16,8 @@
             <x-form :actions="route('subscribers.index', $emailList)" class="w-3/5 flex space-x-4 items-center" flat
                 x-data x-ref="form">
 
-                <x-input.checkbox value="1" name="showTrash" label="{{ __('Show deleted records') }}"
-                    @click="$refs.form.submit()" :checked="$showTrash" />
+                <x-input.checkbox value="1" name="withTrashed" label="{{ __('Show deleted records') }}"
+                    @click="$refs.form.submit()" :checked="$withTrashed" />
 
 
 

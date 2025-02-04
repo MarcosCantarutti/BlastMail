@@ -57,18 +57,17 @@
 
     <div>
 
-        <x-input-label for="track_click" :value="__('Track click')" />
-        <x-input.text id="track_click" class="block mt-1 w-full" name="track_click"
-            :value="old('track_click', $data['track_click'])" autofocus />
+        <x-input.checkbox id="track_click" name="track_click" value='1'
+            :isCheckedWhen="old('track_click', $data['track_click'])" :label="__('Track Click')" autofocus />
         <x-input-error :messages="$errors->get('track_click')" class="mt-2" />
 
     </div>
 
     <div>
 
-        <x-input-label for="track_open" :value="__('Track open')" />
-        <x-input.text id="track_open" class="block mt-1 w-full" name="track_open"
-            :value="old('track_open', $data['track_open'])" autofocus />
+        <x-input.checkbox id="track_open" name="track_open" value='1'
+            :isCheckedWhen="old('track_open', $data['track_open'])" :label="__('Track Open')" autofocus />
+
         <x-input-error :messages="$errors->get('track_open')" class="mt-2" />
 
     </div>

@@ -14,13 +14,13 @@ class SubscriberController extends Controller
     {
         $search = request()->search;
 
-        $showTrash = request()->get('showTrash', false);
+        $withTrashed = request()->get('withTrashed', false);
 
         return view('subscriber.index', [
             'emailList' => $emailList,
             'subscribers' => $emailList->subscribers()
                 // ->with('emailList')
-                ->when($showTrash,  fn(Builder $query) => $query->withTrashed())
+                ->when($withTrashed,  fn(Builder $query) => $query->withTrashed())
                 ->when(
                     $search,
                     fn(Builder $query) => $query
@@ -30,7 +30,7 @@ class SubscriberController extends Controller
                 )
                 ->paginate(),
             'search' => $search,
-            'showTrash' =>  $showTrash
+            'withTrashed' =>  $withTrashed
         ]);
     }
 
