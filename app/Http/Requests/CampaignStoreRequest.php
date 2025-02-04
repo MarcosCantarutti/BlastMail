@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Template;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CampaignStoreRequest extends FormRequest
@@ -63,6 +64,12 @@ class CampaignStoreRequest extends FormRequest
             } else if (filled($newValue)) {
                 $session[$key] = $newValue;
             }
+        }
+
+
+        if ($templateId = filled($session['template_id']) && blank($session['body'])) {
+            $template = Template::find($templateId);
+            $session['body'] = $template->body;
         }
 
 
