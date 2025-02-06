@@ -1,4 +1,25 @@
-<div class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-4">
+
+    <x-alert success :title="__('Your Campaign is ready to be send!')" />
+
+    <div>
+        <div>De:</div>
+        <div>Para:</div>
+
+        <div>Assunto: {{$data['subject']}}</div>
+
+        <div>Template:</div>
+    </div>
+
+    <hr />
+    <div>
+        <div class="flex flex-col gap-2">
+            <x-input-label :value="__('Schedule delivery')" />
+            <x-input.radio id="send_now" name='send_when' value='now'>{{__('Send now')}}</x-input.radio>
+            <x-input.radio id="send_later" name='send_when' value='later'>{{__('Schedule delivery')}}</x-input.radio>
+        </div>
+
+    </div>
     <div>
 
         <x-input-label for="send_at" :value="__('Send at')" />
