@@ -31,7 +31,8 @@ class CampaignStoreRequest extends FormRequest
             'track_click' => null,
             'track_open' => null,
             'send_at' => null,
-        ], request()->all());
+            'send_when' => null,
+        ], $this->all());
 
 
 
@@ -50,7 +51,13 @@ class CampaignStoreRequest extends FormRequest
 
         if ($tab == 'schedule') {
 
-            $rules = ['send_at' => ['required', 'date']];
+            if ($map['send_when'] == 'now') {
+                $map['send_at'] = now()->format('Y-m-d');
+            } else if ($map['send_when'] == 'later') {
+                $rules = ['send_at' => ['required', 'date', 'after:today']];
+            } else {
+                $rules = ['send_when' => ['required']];
+            }
         }
 
         // Garante que a sessão tem todas as chaves
@@ -82,6 +89,7 @@ class CampaignStoreRequest extends FormRequest
     {
         $session = session()->get('campaigns::create');
         unset($session['_token']);
+        unset($session['send_when']);
 
         $session['track_click'] = $session['track_click'] ?: false;
         $session['track_open'] = $session['track_open'] ?: false;

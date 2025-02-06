@@ -12,23 +12,21 @@
     </div>
 
     <hr />
-    <div>
+    <div x-data="{show: '{{data_get($data, 'send_when', 'now')}}' }">
+        <x-input-label :value="__('Schedule delivery')" />
         <div class="flex flex-col gap-2">
-            <x-input-label :value="__('Schedule delivery')" />
-            <x-input.radio id="send_now" name='send_when' value='now'>{{__('Send now')}}</x-input.radio>
-            <x-input.radio id="send_later" name='send_when' value='later'>{{__('Schedule delivery')}}</x-input.radio>
+            <x-input.radio id="send_now" name='send_when' value='now' x-model='show'>{{__('Send now')}}</x-input.radio>
+            <x-input.radio id="send_later" name='send_when' value='later' x-model='show'>{{__('Schedule delivery')}}
+            </x-input.radio>
         </div>
 
+
+        <div x-show="show == 'later'">
+            <x-input.text id="send_at" class="block mt-1 w-full" name="send_at"
+                :value="old('send_at', $data['send_at'])" type='date' autofocus />
+            <x-input-error :messages="$errors->get('send_at')" class="mt-2" />
+        </div>
     </div>
-    <div>
-
-        <x-input-label for="send_at" :value="__('Send at')" />
-        <x-input.text id="send_at" class="block mt-1 w-full" name="send_at" :value="old('send_at', $data['send_at'])"
-            type='date' autofocus />
-        <x-input-error :messages="$errors->get('send_at')" class="mt-2" />
-
-    </div>
-
 
 </div>
 
