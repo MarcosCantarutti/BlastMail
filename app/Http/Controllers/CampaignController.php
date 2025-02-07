@@ -39,6 +39,18 @@ class CampaignController extends Controller
     {
         // session()->forget('campaigns::create');
 
+        $data = session()->get('campaigns::create', [
+            'name' => null,
+            'subject' => null,
+            'email_list_id' => null,
+            'template_id' => null,
+            'body' => null,
+            'track_click' => 0,
+            'track_open' => 0,
+            'send_at' => null,
+            'send_when' => 'now',
+        ]);
+
         return view(
             'campaigns.create',
             array_merge(
@@ -48,6 +60,10 @@ class CampaignController extends Controller
                         'templates' => Template::query()->select(['id', 'name'])->orderBy('name')->get(),
                     ];
                 }, fn() => []),
+                $this->when($tab == 'schedule', fn() => [
+                    'countEmails' => EmailList::find($data['email_list_id'])->subscribers()->count(),
+                    'template' => Template::find($data['template_id'])->name,
+                ], fn() => []),
                 [
                     'tab' => $tab,
                     'form' => match ($tab) {
@@ -56,17 +72,7 @@ class CampaignController extends Controller
                         default => '_config'
                     },
 
-                    'data' => session()->get('campaigns::create', [
-                        'name' => null,
-                        'subject' => null,
-                        'email_list_id' => null,
-                        'template_id' => null,
-                        'body' => null,
-                        'track_click' => 0,
-                        'track_open' => 0,
-                        'send_at' => null,
-                        'send_when' => 'now',
-                    ])
+                    'data' => $data
                 ]
             )
         );
