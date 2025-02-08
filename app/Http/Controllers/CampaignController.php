@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CampaignStoreRequest;
+use App\Jobs\SendEmailCampaign;
 use App\Mail\EmailCampaign;
 use App\Models\Campaign;
 use App\Models\EmailList;
@@ -92,10 +93,8 @@ class CampaignController extends Controller
             $campaign = Campaign::create($data);
 
 
-            // não travar nesse loop
-            foreach ($campaign->emailList->subscribers as $subscriber) {
-                Mail::to($subscriber->email)->send(new EmailCampaign($campaign));
-            }
+            // não travar nesse loop, usando job e o método dispatch de aguardar o response
+            SendEmailCampaign::dispatchAfterResponse($campaign);
         }
 
         return response()->redirectTo($toRoute);
