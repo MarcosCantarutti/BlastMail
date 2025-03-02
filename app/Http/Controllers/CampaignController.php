@@ -70,9 +70,15 @@ class CampaignController extends Controller
 
         abort_unless(in_array($what, ['statistics', 'open', 'clicked']), 404);
 
+
+        //implementação
+        $search = request()->search;
+
+
         return view('campaigns.show', [
             'campaign' => $campaign,
-            'what' => $what
+            'what' => $what,
+            'search' => $search
         ]);
     }
 
