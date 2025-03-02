@@ -38,6 +38,36 @@ class CampaignController extends Controller
         ]);
     }
 
+    //region metodos separados
+    // public function showStatistics(Campaign $campaign)
+    // {
+
+    //     return view('campaigns.show.statistics');
+    // }
+
+    // public function showOpen(Campaign $campaign)
+    // {
+
+    //     return view('campaigns.show.open');
+    // }
+
+    // public function showClicked(Campaign $campaign)
+    // {
+
+    //     return view('campaigns.show.clicked');
+    // }
+    //endregion
+
+    public function show(Campaign $campaign, string $what)
+    {
+
+        abort_unless(in_array($what, ['statistics', 'open', 'clicked']), 404);
+
+        return view('campaigns.show.' . $what);
+    }
+
+
+
     public function create(?string $tab = null)
     {
         // session()->forget('campaigns::create');
