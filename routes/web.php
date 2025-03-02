@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaigns.index');
 
-    Route::get('/campaigns/{campaign}/{what}', [CampaignController::class, 'show'])->name('campaigns.show');
+    Route::get('/campaigns/{campaign}/{what?}', [CampaignController::class, 'show'])->name('campaigns.show');
 
 
     // Route::get('/campaigns/{campaign}/statistics', [CampaignController::class, 'showStatistics'])->name('campaigns.show.statistics');

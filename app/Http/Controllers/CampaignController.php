@@ -58,12 +58,22 @@ class CampaignController extends Controller
     // }
     //endregion
 
-    public function show(Campaign $campaign, string $what)
+    public function show(Campaign $campaign, ?string $what = null)
     {
+
+        // $what = $what ?: 'statistics';
+
+        //abordagem melhor para vir selecionado
+        if (is_null($what)) {
+            return to_route('campaigns.show', ['campaign' => $campaign, 'what' => 'statistics']);
+        }
 
         abort_unless(in_array($what, ['statistics', 'open', 'clicked']), 404);
 
-        return view('campaigns.show.' . $what);
+        return view('campaigns.show', [
+            'campaign' => $campaign,
+            'what' => $what
+        ]);
     }
 
 
