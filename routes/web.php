@@ -45,9 +45,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaigns.index');
 
-    Route::get('/campaigns/{campaign}/{what?}', [CampaignController::class, 'show'])->name('campaigns.show');
-
-
     // Route::get('/campaigns/{campaign}/statistics', [CampaignController::class, 'showStatistics'])->name('campaigns.show.statistics');
     // Route::get('/campaigns/{campaign}/open', [CampaignController::class, 'showOpen'])->name('campaigns.show.open');
     // Route::get('/campaigns/{campaign}/clicked', [CampaignController::class, 'showClicked'])->name('campaigns.show.clicked');
@@ -56,6 +53,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/campaigns/create/{tab?}', [CampaignController::class, 'create'])->middleware(CampaignCreateSessionControl::class)->name('campaigns.create');
 
     Route::post('/campaigns/create/{tab?}', [CampaignController::class, 'store']);
+
+    Route::get('/campaigns/{campaign}/{what?}', [CampaignController::class, 'show'])->name('campaigns.show');
 
     Route::patch('/campaigns/{campaign}/restore', [CampaignController::class, 'restore'])->withTrashed()->name('campaigns.restore');
 
