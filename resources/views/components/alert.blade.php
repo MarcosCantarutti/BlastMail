@@ -1,5 +1,5 @@
 @props([
-'title', 'success' => null, 'info' => null, 'warning' => null, 'danger' => null,
+'title', 'success' => null, 'info' => null, 'warning' => null, 'danger' => null, 'noIcon' => false,
 ])
 
 <div @class([ 'relative w-full overflow-hidden rounded-md border bg-surface text-on-surface dark:bg-surface-dark dark:text-on-surface-dark'
@@ -11,12 +11,17 @@
             $warning, 'bg-red-500/15 text-red-500 '=>
             $danger])
             aria-hidden="true">
+
+            @unless($noIcon)
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-6"
                 aria-hidden="true">
                 <path fill-rule="evenodd"
                     d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
                     clip-rule="evenodd" />
             </svg>
+
+            @endunless
+
         </div>
         <div class="ml-2">
             <h3 @class([ 'text-sm font-semibold ' , 'text-success'=> $success, 'text-warning'=> $warning,
