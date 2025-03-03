@@ -14,7 +14,7 @@ class CampaignMailSeeder extends Seeder
      */
     public function run(): void
     {
-        Campaign::with('emaiList', 'emailList.subscribers')->get()
+        Campaign::with('emailList', 'emailList.subscribers')->get()
             ->each(function (Campaign $campaign) {
                 foreach ($campaign->emailList->subscribers as $subscriber) {
                     CampaignMail::factory()
