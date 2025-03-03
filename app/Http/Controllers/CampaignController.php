@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CampaignShowRequest;
 use App\Http\Requests\CampaignStoreRequest;
-use App\Jobs\SendEmailCampaign;
+use App\Jobs\SendEmailsCampaign;
 use App\Mail\EmailCampaign;
 use App\Models\Campaign;
 use App\Models\EmailList;
@@ -62,6 +62,10 @@ class CampaignController extends Controller
     public function show(CampaignShowRequest $request, Campaign $campaign, ?string $what = null)
     {
 
+
+        if ($redirect = $request->checkWhat()) {
+            return $redirect;
+        }
 
         //implementação
         $search = request()->search;
@@ -132,7 +136,7 @@ class CampaignController extends Controller
 
 
             // não travar nesse loop, usando job e o método dispatch de aguardar o response
-            SendEmailCampaign::dispatchAfterResponse($campaign);
+            SendEmailsCampaign::dispatchAfterResponse($campaign);
         }
 
         return response()->redirectTo($toRoute);
