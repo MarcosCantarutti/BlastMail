@@ -24,8 +24,43 @@ class CampaignMail extends Model
                 round(cast(count(case when clicks > 0 then subscriber_id end) as float) / nullif(cast(count(subscriber_id) as float), 0) * 100) as clicks_rate
 
             "
-        )
-            ->first();
+        );
+    }
+
+    public function scopeOpenings(Builder $query, ?string $search)
+    {
+        return $query->with('subscriber')
+            ->when(
+                $search,
+                fn(Builder $query) => $query
+                    // ->where('subscriber.name', 'like', "%$search%")
+                    ->whereHas(
+                        'subscriber',
+                        fn(Builder $query) => $query
+                            ->where('name', 'like', "%$search%")
+                            ->orWhere('email', 'like', "%$search%")
+                    )->orWhere('openings', '=', $search)
+            )
+            ->orderByDesc('openings')
+        ;
+    }
+
+    public function scopeClicks(Builder $query, ?string $search)
+    {
+        return $query->with('subscriber')
+            ->when(
+                $search,
+                fn(Builder $query) => $query
+                    // ->where('subscriber.name', 'like', "%$search%")
+                    ->whereHas(
+                        'subscriber',
+                        fn(Builder $query) => $query
+                            ->where('name', 'like', "%$search%")
+                            ->orWhere('email', 'like', "%$search%")
+                    )->orWhere('clicks', '=', $search)
+            )
+            ->orderByDesc('clicks')
+        ;
     }
 
     public function campaign()

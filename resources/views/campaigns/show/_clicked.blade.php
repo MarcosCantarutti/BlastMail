@@ -8,13 +8,19 @@
     <x-table :headers="[__('Name'), __('# Clicks'), __('Email')]">
 
         <x-slot name="body">
+            @foreach ($query as $item)
+
             <tr>
-                <x-table.td>Jeremias</x-table.td>
-                <x-table.td>1</x-table.td>
-                <x-table.td>jeremias@teste.com</x-table.td>
+                <x-table.td>{{ $item->subscriber->name }}</x-table.td>
+                <x-table.td>{{$item->clicks }}</x-table.td>
+                <x-table.td>{{ $item->subscriber->email}}</x-table.td>
             </tr>
+
+            @endforeach
         </x-slot>
     </x-table>
 
+
+    {{$query->links();}}
 
 </div>
