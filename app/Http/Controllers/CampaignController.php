@@ -73,19 +73,22 @@ class CampaignController extends Controller
 
         $query = $campaign
             ->mails()
-            ->selectRaw(
-                "
-                    count(subscriber_id) as total_subscribers,
-                    sum(openings) as total_openings,
-                    count(case when openings > 0 then subscriber_id end) as unique_openings,
-                    round(cast(count(case when openings > 0 then subscriber_id end) as float) / nullif(cast(count(subscriber_id) as float), 0) * 100) as openings_rate,
-                    sum(clicks) as total_clicks,
-                    count(case when clicks > 0 then subscriber_id end) as unique_clicks,
-                    round(cast(count(case when clicks > 0 then subscriber_id end) as float) / nullif(cast(count(subscriber_id) as float), 0) * 100) as clicks_rate
-
-                "
+            ->with('subscriber')
+            ->when(
+                $search,
+                fn(Builder $query) => $query
+                    // ->where('subscriber.name', 'like', "%$search%")
+                    ->whereHas(
+                        'subscriber',
+                        fn(Builder $query) => $query
+                            ->where('name', 'like', "%$search%")
+                            ->orWhere('email', 'like', "%$search%")
+                    )->orWhere('openings', '=', $search)
             )
-            ->first();
+            ->orderByDesc('openings')
+            ->simplePaginate(5)
+            ->withQueryString();
+        // ->statistics();
 
         return view('campaigns.show', [
             'campaign' => $campaign,
