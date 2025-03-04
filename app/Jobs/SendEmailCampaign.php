@@ -23,7 +23,7 @@ class SendEmailCampaign implements ShouldQueue
     public function handle(): void
     {
 
-        CampaignMail::query()->create([
+        $mail = CampaignMail::query()->create([
             'campaign_id' => $this->campaign->id,
             'subscriber_id' => $this->subscriber->id,
             'sent_at' => $this->campaign->send_at,
@@ -32,7 +32,7 @@ class SendEmailCampaign implements ShouldQueue
         Mail::to($this->subscriber->email)
             ->later(
                 $this->campaign->send_at,
-                new EmailCampaign($this->campaign)
+                new EmailCampaign($this->campaign, $mail)
             );
     }
 }
