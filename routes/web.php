@@ -7,35 +7,11 @@ use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\TrackingController;
 use App\Http\Middleware\CampaignCreateSessionControl;
-use App\Jobs\SendEmailCampaign;
-use App\Jobs\SendEmailsCampaign;
-use App\Mail\EmailCampaign;
-use App\Models\Campaign;
-use App\Models\CampaignMail;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/email', function () {
-    $campaign = Campaign::find(11);
-    $mail = $campaign->mails()->first();
-    $email = new EmailCampaign($campaign, $mail);
-
-    // SendEmailsCampaign::dispatchAfterResponse($campaign);
-    return $email->render();
-});
 
 Route::get('/t/{mail}/o', [TrackingController::class, 'openings'])->name('tracking.openings');
 
 Route::get('/t/{mail}/c', [TrackingController::class, 'clicks'])->name('tracking.clicks');
-
-// Route::view('/', 'welcome');
-Route::get('/', function () {
-    Auth::loginUsingId(1);
-
-    return to_route('dashboard');
-});
 
 Route::view('/dashboard', 'dashboard')->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -63,9 +39,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/campaigns', [CampaignController::class, 'index'])->name('campaigns.index');
 
-    // Route::get('/campaigns/{campaign}/statistics', [CampaignController::class, 'showStatistics'])->name('campaigns.show.statistics');
-    // Route::get('/campaigns/{campaign}/open', [CampaignController::class, 'showOpen'])->name('campaigns.show.open');
-    // Route::get('/campaigns/{campaign}/clicked', [CampaignController::class, 'showClicked'])->name('campaigns.show.clicked');
 
 
     Route::get('/campaigns/create/{tab?}', [CampaignController::class, 'create'])->middleware(CampaignCreateSessionControl::class)->name('campaigns.create');
@@ -78,10 +51,6 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/campaigns/{campaign}', [CampaignController::class, 'destroy'])->name('campaigns.destroy');
 
-
-    // Route::get('/campaigns/{campaign}/emails', function (Campaign $campaign) {
-    //     return (new EmailCampaign($campaign))->render();
-    // });
 
     //endregion
 });
