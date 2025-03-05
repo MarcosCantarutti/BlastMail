@@ -3,7 +3,7 @@ $trackingImage = '<img src="' . route('tracking.openings', $mail) . '" style="di
 @endphp
 
 <x-mail::message>
-    {!! $campaign->body !!}
+    {!! $body !!}
     {{ __('Thanks') }},<br>
     {{ config('app.name') }}
 
