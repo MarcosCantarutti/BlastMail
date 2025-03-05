@@ -18,16 +18,31 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/email', function () {
-    $campaign = Campaign::find(12);
+    $campaign = Campaign::find(14);
     $mail = $campaign->mails()->first();
+
+
+    $pattern = '/href="([^"]*)"/';
+    preg_match_all($pattern, $campaign->body, $matches);
+
+
+    // dd($matches, $campaign->body);
+    foreach ($matches[1] as $index => $oldValue) {
+        $newValue = 'href="' . route('tracking.clicks', ['mail' => $mail, 'f' => $oldValue]) . '"';
+
+        $campaign->body = str_replace($matches[0][$index], $newValue, $campaign->body);
+    }
+
+
     $email = new EmailCampaign($campaign, $mail);
 
-    SendEmailsCampaign::dispatchAfterResponse($campaign);
+    // SendEmailsCampaign::dispatchAfterResponse($campaign);
     return $email->render();
 });
 
 Route::get('/t/{mail}/o', [TrackingController::class, 'openings'])->name('tracking.openings');
 
+Route::get('/t/{mail}/c', [TrackingController::class, 'clicks'])->name('tracking.clicks');
 
 // Route::view('/', 'welcome');
 Route::get('/', function () {
